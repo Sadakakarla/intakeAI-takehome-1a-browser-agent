@@ -1,0 +1,309 @@
+/* Mock 1 — intakeAI eSource. Visual language of the product it models:
+   dark-maroon chrome, teal primary actions, white cards on light gray. */
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 14px;
+  color: #2b2b2b;
+  background: #eef0f2;
+}
+
+.app { min-height: 100vh; }
+
+/* ── chrome ─────────────────────────────────────────── */
+
+.chrome {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  background: #6d1f2c;
+  color: #fff;
+  padding: 0 20px;
+  height: 52px;
+}
+
+.brand { font-weight: 700; letter-spacing: 0.4px; }
+
+.chrome-tabs { display: flex; gap: 4px; height: 100%; }
+
+.chrome-tab {
+  border: none;
+  background: transparent;
+  color: #e6cdd2;
+  padding: 0 14px;
+  height: 100%;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.chrome-tab.active {
+  background: #571823;
+  color: #fff;
+  border-bottom: 3px solid #2aa79b;
+}
+
+.study-name { margin-left: auto; font-size: 12px; color: #e6cdd2; }
+
+/* ── layout ─────────────────────────────────────────── */
+
+.main { padding: 20px; max-width: 1400px; margin: 0 auto; overflow-x: auto; }
+
+h2 { margin: 8px 0 12px; font-size: 18px; }
+h3 { margin: 4px 0 10px; font-size: 15px; }
+
+.breadcrumb { color: #6b6f73; font-size: 12px; margin: 0 0 6px; }
+
+.empty { color: #8a8f94; font-style: italic; }
+
+/* ── tables ─────────────────────────────────────────── */
+
+.grid {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border: 1px solid #d6dadd;
+  margin-bottom: 14px;
+}
+
+.grid th {
+  text-align: left;
+  background: #f6f7f8;
+  border-bottom: 2px solid #d6dadd;
+  padding: 8px 12px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  color: #5a5f63;
+}
+
+.grid td { padding: 8px 12px; border-bottom: 1px solid #e7eaec; }
+
+.doc-name { font-weight: 600; }
+
+.row-actions { display: flex; gap: 6px; }
+
+.chip {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.chip.draft { background: #f3e6c4; color: #7a5d10; }
+.chip.active { background: #d0ecdf; color: #1e6b45; }
+
+/* ── buttons ────────────────────────────────────────── */
+
+.btn {
+  border: 1px solid #c6cbcf;
+  background: #fff;
+  color: #2b2b2b;
+  border-radius: 3px;
+  padding: 7px 14px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.btn.primary { background: #6d1f2c; border-color: #6d1f2c; color: #fff; }
+.btn.teal { background: #2aa79b; border-color: #2aa79b; color: #fff; }
+.btn.danger { background: #fff; border-color: #c0392b; color: #c0392b; }
+.btn.small { padding: 4px 10px; font-size: 12px; }
+.btn.link-btn { border: none; background: transparent; color: #6d1f2c; padding: 4px 0; }
+
+.link {
+  border: none;
+  background: transparent;
+  color: #1a6f9c;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 14px;
+  padding: 0;
+}
+
+.pill {
+  border: 1px solid #c6cbcf;
+  background: #f6f7f8;
+  border-radius: 14px;
+  padding: 3px 14px;
+  margin-right: 6px;
+}
+
+/* ── forms ──────────────────────────────────────────── */
+
+.card {
+  background: #fff;
+  border: 1px solid #d6dadd;
+  padding: 14px 16px;
+  margin-top: 12px;
+  max-width: 460px;
+}
+
+.row { display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
+.row.compact { margin-bottom: 6px; }
+.row label { font-size: 12px; color: #5a5f63; font-weight: 600; }
+.row.checkbox { flex-direction: row; align-items: center; gap: 8px; }
+.row.checkbox label { order: 2; font-weight: 400; color: #2b2b2b; }
+
+input[type='text'], textarea, select {
+  border: 1px solid #c6cbcf;
+  border-radius: 3px;
+  padding: 6px 8px;
+  font-size: 13px;
+  font-family: inherit;
+  width: 100%;
+}
+
+input.narrow { width: 110px; }
+
+.actions { display: flex; gap: 8px; margin-top: 8px; }
+
+fieldset {
+  border: 1px solid #d6dadd;
+  border-radius: 3px;
+  margin: 0 0 12px;
+  padding: 8px 10px;
+}
+
+legend { font-size: 12px; font-weight: 600; color: #5a5f63; padding: 0 4px; }
+
+/* ── builder ────────────────────────────────────────── */
+
+.builder-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  border: 1px solid #d6dadd;
+  padding: 8px 14px;
+  margin-bottom: 10px;
+}
+
+.builder-bar-left { display: flex; align-items: center; gap: 12px; }
+.builder-bar-right { display: flex; gap: 8px; }
+.builder-title { font-weight: 700; font-size: 15px; }
+.builder-status { color: #6b6f73; font-size: 12px; }
+
+.toast {
+  background: #fff8e1;
+  border: 1px solid #e6cf8b;
+  color: #7a5d10;
+  padding: 7px 12px;
+  margin-bottom: 10px;
+  font-size: 13px;
+}
+
+.builder-columns {
+  display: grid;
+  grid-template-columns: 230px minmax(360px, 1fr) 340px;
+  gap: 12px;
+  align-items: start;
+  min-width: 980px;
+}
+
+.library, .options {
+  background: #fff;
+  border: 1px solid #d6dadd;
+  padding: 12px;
+}
+
+.library-list { list-style: none; margin: 8px 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+
+.library-item {
+  width: 100%;
+  text-align: left;
+  border: 1px solid #c6cbcf;
+  background: #f6f7f8;
+  border-radius: 3px;
+  padding: 8px 10px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.library-item:hover { background: #eef6f5; border-color: #2aa79b; }
+.library-item.ghost { margin-top: 8px; }
+
+.canvas { min-height: 400px; }
+
+.page-tabs {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.page-tab {
+  border: 1px solid #d6dadd;
+  border-bottom: none;
+  background: #e3e6e8;
+  padding: 6px 16px;
+  cursor: pointer;
+  border-radius: 3px 3px 0 0;
+  font-size: 13px;
+}
+
+.page-tab.active { background: #fff; font-weight: 600; border-top: 3px solid #6d1f2c; }
+
+.canvas-surface {
+  background: #fff;
+  border: 1px solid #d6dadd;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 360px;
+}
+
+.element-card {
+  border: 1px solid #e0e3e6;
+  border-radius: 3px;
+  padding: 10px 12px;
+  cursor: pointer;
+  background: #fff;
+}
+
+.element-card:hover { border-color: #2aa79b; }
+.element-card.selected { border: 2px solid #2aa79b; background: #fbfefd; }
+
+.element-head { display: flex; justify-content: space-between; margin-bottom: 6px; }
+.element-label { font-weight: 600; }
+.element-meta { color: #8a8f94; font-size: 12px; }
+
+.element-preview { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.element-preview .units { color: #6b6f73; font-size: 12px; }
+
+.choice { display: inline-flex; align-items: center; gap: 4px; margin-right: 10px; }
+.choice input { width: auto; }
+
+.value-row { display: flex; gap: 8px; align-items: flex-end; margin-bottom: 6px; }
+.value-row .row { flex: 1; margin-bottom: 0; }
+.value-row .btn { flex: 0 0 auto; }
+
+/* ── modal ──────────────────────────────────────────── */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(30, 30, 30, 0.5);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 40px 0;
+  overflow-y: auto;
+}
+
+.modal {
+  background: #fff;
+  border-radius: 4px;
+  padding: 18px 22px;
+  width: 640px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.preview-row { display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px; }
+
+.inline-form h3 { margin-top: 0; }
