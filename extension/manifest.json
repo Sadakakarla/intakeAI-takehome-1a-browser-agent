@@ -1,0 +1,26 @@
+{
+  "manifest_version": 3,
+  "name": "Intake AI — eSource Build Agent",
+  "version": "0.1.0",
+  "description": "Agent that builds a clinical trial study inside any eSource platform from a structured input file, with a human-in-the-loop gate.",
+  "permissions": [
+    "debugger",
+    "storage",
+    "sidePanel",
+    "activeTab",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://api.groq.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  },
+  "options_page": "options.html",
+  "action": {
+    "default_title": "Intake AI Agent"
+  }
+}
