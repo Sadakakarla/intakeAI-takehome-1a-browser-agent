@@ -14,7 +14,8 @@
     "https://api.groq.com/*"
   ],
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "background.js",
+    "type": "module"
   },
   "side_panel": {
     "default_path": "sidepanel.html"
@@ -22,5 +23,14 @@
   "options_page": "options.html",
   "action": {
     "default_title": "Intake AI Agent"
+  },
+  "commands": {
+    "grant-page-access": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+K",
+        "mac": "Command+Shift+K"
+      },
+      "description": "Grant the agent temporary access to the active tab (needed before a run, since opening the side panel alone does not grant activeTab)"
+    }
   }
 }

@@ -6,12 +6,136 @@
   <style>
     body { font-family: system-ui, sans-serif; margin: 0; padding: 16px; width: 320px; }
     h1 { font-size: 15px; margin: 0 0 8px; }
+    h2 {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      color: #888;
+      margin: 20px 0 6px;
+    }
     p { font-size: 13px; color: #555; }
+    #call-counter { border: 1px solid #ddd; border-radius: 6px; overflow: hidden; }
+    .counter-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 10px;
+      font-size: 12px;
+      font-family: ui-monospace, Menlo, monospace;
+      border-bottom: 1px solid #eee;
+    }
+    .counter-row:last-child { border-bottom: none; }
+    .counter-label { color: #333; }
+    .counter-value { font-weight: 600; color: #111; }
+    #escalation-log { border: 1px solid #ddd; border-radius: 6px; overflow: hidden; }
+    .escalation-line {
+      padding: 6px 10px;
+      font-size: 12px;
+      color: #a33;
+      border-bottom: 1px solid #eee;
+    }
+    .escalation-line:last-child { border-bottom: none; }
+    .gate-empty {
+      border: 1px dashed #ccc;
+      border-radius: 6px;
+      padding: 10px;
+      font-size: 12px;
+      color: #999;
+      font-style: italic;
+    }
+    .gate-card {
+      border: 1px solid #d9a441;
+      background: #fff8ea;
+      border-radius: 6px;
+      padding: 10px;
+    }
+    .gate-description { font-size: 13px; color: #222; margin-bottom: 6px; }
+    .gate-details {
+      background: #fff;
+      border: 1px solid #eee;
+      border-radius: 4px;
+      padding: 6px;
+      font-size: 11px;
+      font-family: ui-monospace, Menlo, monospace;
+      white-space: pre-wrap;
+      margin: 0 0 8px;
+      max-height: 120px;
+      overflow-y: auto;
+    }
+    .gate-screenshot {
+      width: 100%;
+      border: 1px solid #eee;
+      border-radius: 4px;
+      margin-bottom: 8px;
+      display: block;
+    }
+    .gate-buttons { display: flex; gap: 8px; }
+    .gate-buttons button {
+      flex: 1;
+      padding: 6px 0;
+      font-size: 12px;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+    }
+    .gate-approve { background: #2e7d32; color: #fff; }
+    .gate-reject { background: #c62828; color: #fff; }
+    
+    .control-buttons { display: flex; gap: 8px; margin-bottom: 8px; }
+    .control-button {
+      flex: 1;
+      padding: 8px 0;
+      font-size: 12px;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+    }
+    .control-button:disabled { opacity: 0.5; cursor: not-allowed; }
+    .control-start { background: #2e7d32; color: #fff; }
+    .control-stop { background: #c62828; color: #fff; }
+    .control-secondary { background: #eee; color: #333; }
+    .control-status-idle { font-size: 12px; color: #999; font-style: italic; margin-bottom: 4px; }
+    .control-status-running { font-size: 12px; color: #1a7f37; font-weight: 600; margin-bottom: 4px; }
+    #ir-file-input { font-size: 12px; }
+    .ir-status-empty { font-size: 12px; color: #999; font-style: italic; margin-top: 6px; }
+    .ir-status-ok { font-size: 12px; color: #1a7f37; margin-top: 6px; }
+    .ir-status-error { font-size: 12px; color: #c00; margin-top: 6px; }
+    .run-status-empty { font-size: 12px; color: #999; font-style: italic; margin-top: 6px; }
+    .run-status-summary { font-size: 12px; margin-top: 6px; margin-bottom: 8px; white-space: pre-line; }
+    .run-status-summary.stopped-early { color: #c62828; font-weight: 600; }
+    .run-status-item { font-size: 12px; padding: 6px 8px; margin-bottom: 4px; border-radius: 4px; background: #fafafa; border-left: 3px solid #2e7d32; }
+    .run-status-item.status-escalated, .run-status-item.status-aborted { border-left-color: #c62828; }
+    .run-status-item.status-rejected { border-left-color: #e65100; }
+    .run-status-item.status-skipped_dependency, .run-status-item.status-not_attempted { border-left-color: #999; color: #777; }
   </style>
 </head>
 <body>
   <h1>Intake AI — eSource Build Agent</h1>
-  <p>Placeholder side panel. Escalation queue and run controls arrive in later phases.</p>
-  <script src="sidepanel.js"></script>
+  <p>Placeholder side panel. A full triage queue arrives in Phase 7.</p>
+  <h2>Controls</h2>
+  <div class="control-buttons">
+    <button id="start-build-btn" class="control-button control-start">Start Build</button>
+    <button id="stop-build-btn" class="control-button control-stop" disabled>Stop Build</button>
+  </div>
+  <div class="control-buttons">
+    <button id="clear-escalations-btn" class="control-button control-secondary">Clear Escalations</button>
+    <button id="reset-governor-btn" class="control-button control-secondary">Reset Governor State</button>
+  </div>
+  <div class="control-buttons">
+    <button id="clear-last-run-btn" class="control-button control-secondary">Clear Last Run Status</button>
+  </div>
+  <div id="control-status" class="control-status-idle">Idle — no run in progress.</div>
+  <h2>Study Input File</h2>
+  <input type="file" id="ir-file-input" accept="application/json,.json" />
+  <div id="ir-status" class="ir-status-empty">No file loaded yet.</div>
+  <h2>Pending Action</h2>
+  <div id="gate-request" class="gate-empty">No pending action.</div>
+  <h2>Groq calls (lifetime, per model)</h2>
+  <div id="call-counter"></div>
+  <h2>Escalations</h2>
+  <div id="escalation-log"></div>
+  <h2>Last Run Status</h2>
+  <div id="last-run-status" class="run-status-empty">No run has completed yet.</div>
+  <script type="module" src="sidepanel.js"></script>
 </body>
 </html>
