@@ -1,4 +1,4 @@
-# Intake AI — Assignment 1a: eSource Build Agent
+# Intake AI Take-Home Assignment 1a - eSource Build Agent
 
 A Chrome browser extension that acts as an autonomous agent to build a clinical trial study
 structure — visits, forms, and fields — inside **any** eSource platform, driven entirely by a
